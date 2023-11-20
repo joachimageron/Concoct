@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace = "com.example.concocte"
-    compileSdk = 33
-
+    compileSdk = 34
     defaultConfig {
         applicationId = "com.example.concocte"
         minSdk = 24
-        targetSdk = 33
+        //noinspection OldTargetApi
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
