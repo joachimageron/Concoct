@@ -15,9 +15,27 @@
                     android:padding="16dp">
 
         <TextView
+                android:id="@+id/scoreLabelTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Score :"
+                android:textSize="30sp"
+                android:textStyle="bold"
+        />
+        <TextView
+                android:id="@+id/scoreTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/scoreLabelTextView"
+                android:text="0"
+                android:textSize="30sp"
+                android:textStyle="bold"
+        />
+        <TextView
                 android:id="@+id/questionLabelTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/scoreLabelTextView"
                 android:text="Question :"
                 android:textSize="30sp"
                 android:textStyle="bold"
