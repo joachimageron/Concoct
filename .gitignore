@@ -27,8 +27,8 @@ replay_pid*
 #fichiers de configuration de l'IDE
 .idea/*
 ```
-#fichiers gradle
-.gradle/*
+#ignonre les fichier inutiles de gradle
+.gradle/
 
 
 
