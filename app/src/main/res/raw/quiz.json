@@ -1,0 +1,25 @@
+{
+  "quiz": [
+    {
+      "id": 1,
+      "name": "mère",
+      "question": "Qui est ton père",
+      "propositions": [
+        "ta mère",
+        "ton père"
+      ],
+      "idResponse": 1
+    },
+    {
+      "id": 2,
+      "name": "père",
+      "question": "Qui est ta mère",
+      "propositions": [
+        "ta soeur",
+        "ton frère",
+        "ta mère"
+      ],
+      "idResponse": 2
+    }
+  ]
+}

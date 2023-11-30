@@ -8,8 +8,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import com.example.concocte.data.APIRequest;
+import com.example.concocte.data.ReadJSON;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,7 +27,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	setContentView(R.layout.activity_main);
 	addQuestions();
 	displayQuestion();
-	
+
 	Button nextButton = findViewById(R.id.nextQuestionButton);
 	nextButton.setOnClickListener(v -> {
 		if (listQuestions.isLastQuestion()) {
@@ -29,7 +35,7 @@ protected void onCreate(Bundle savedInstanceState) {
 			builder.setTitle("Fin du quiz");
 			builder.setMessage("Vous avez terminé le quizz avec un score de " + listQuestions.getScore() + "/" + listQuestions.getQuestions().size() + ".");
 			builder.setPositiveButton("OK", (dialog, which) -> {
-			
+
 			});
 			listQuestions.reset();
 			clearGridLayout();
@@ -41,8 +47,23 @@ protected void onCreate(Bundle savedInstanceState) {
 			displayQuestion();
 		}
 	});
-	
-	
+
+    //Fair pour l'API
+    apiTextView = findViewById(R.id.apiTextView);
+    try {
+        JSONObject testJson = ReadJSON.readJSONFile(this, R.raw.quiz);
+        System.out.println("tesJson " + testJson);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    } catch (JSONException e) {
+        throw new RuntimeException(e);
+    }
+
+//        APIRequest apiRequest = new APIRequest();
+//        apiRequest.run();
+
+
+
 }
 
 private void displayQuestion() {
@@ -53,13 +74,13 @@ private void displayQuestion() {
 	Question question = listQuestions.getCurrentQuestion();
 	TextView scoreTextView = findViewById(R.id.scoreTextView);
 	Log.d("score", listQuestions.getScore() + "");
-	
+
 	questionTextView.setText(question.getQuestion());
 	scoreTextView.setText(listQuestions.getScore() + "/" + listQuestions.getQuestions().size());
 	explication.setText(question.getExplication());
 	explication.setVisibility(View.INVISIBLE);
 	nextButton.setVisibility(View.INVISIBLE);
-	
+
 	ArrayList<Button> buttons = new ArrayList<>();
 	for (String choice : question.getChoices()) {
 		Button choiceButton = new Button(this);
@@ -67,7 +88,7 @@ private void displayQuestion() {
 		choiceButton.setOnClickListener(v -> {
 			explication.setVisibility(View.VISIBLE);
 			nextButton.setVisibility(View.VISIBLE);
-			
+
 			if (question.checkAnswer(choice)) {
 				Log.d("choice true", choice);
 				listQuestions.incrementScore();
@@ -100,3 +121,7 @@ private void clearGridLayout() {
 }
 }
 
+
+    }
+
+}
