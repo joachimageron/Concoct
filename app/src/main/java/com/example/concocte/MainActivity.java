@@ -4,18 +4,20 @@ import android.graphics.Color;
 import android.util.Log;
 import android.widget.*;
 import android.view.View;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-
+import com.example.concocte.data.APIRequest;
 import com.example.concocte.data.ReadJSON;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Fair pour l'API
+    TextView apiTextView;
 
     Question question = new Question(
             "Quel est le nom de la capitale de la France ?",
@@ -61,6 +63,20 @@ public class MainActivity extends AppCompatActivity {
             buttons.add(choiceButton);
             layout.addView(choiceButton);
         }
+
+        //Fair pour l'API
+        apiTextView = findViewById(R.id.apiTextView);
+        try {
+            JSONObject testJson = ReadJSON.readJSONFile(this, R.raw.quiz);
+            System.out.println("tesJson " + testJson);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+//        APIRequest apiRequest = new APIRequest();
+//        apiRequest.run();
 
     }
 

@@ -15,16 +15,14 @@ import java.io.InputStreamReader;
 
 public class ReadJSON {
 
-    public static String readQuizQuestionJSONFile(Context context) throws IOException, JSONException{
+    public static JSONObject readJSONFile(Context context, int rawFile) throws IOException, JSONException{
 
-        String jsonText = readText(context, R.raw.quiz);
+        String jsonText = readText(context, rawFile);
+        JSONObject jsonObject = null;
 
-        JSONObject jsonRoot = new JSONObject(jsonText);
+        jsonObject = new JSONObject(jsonText);
 
-
-
-        return Integer.toString(jsonRoot.getJSONArray("quiz").length());
-
+        return jsonObject;
     }
 
     private static String readText(Context context, int resId) throws IOException {
