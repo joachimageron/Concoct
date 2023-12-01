@@ -2,9 +2,6 @@ package com.example.concocte.data;
 
 import android.content.Context;
 
-import com.example.concocte.R;
-import com.example.concocte.data.Quiz;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

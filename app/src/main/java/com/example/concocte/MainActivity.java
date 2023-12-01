@@ -1,6 +1,8 @@
 package com.example.concocte;
 
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.*;
 import android.view.View;
@@ -10,8 +12,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.example.concocte.data.APIRequest;
 import com.example.concocte.data.ReadJSON;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,53 +25,61 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 ListQuestions listQuestions = new ListQuestions();
+public interface APIQuizCallback {
+	Boolean AddListQuestions(JSONObject jsonObject);
+}
+private final Handler handler = new Handler(Looper.getMainLooper());
 
 @Override
 protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_main);
-	addQuestions();
-	displayQuestion();
 
-	Button nextButton = findViewById(R.id.nextQuestionButton);
-	nextButton.setOnClickListener(v -> {
-		if (listQuestions.isLastQuestion()) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("Fin du quiz");
-			builder.setMessage("Vous avez terminé le quizz avec un score de " + listQuestions.getScore() + "/" + listQuestions.getQuestions().size() + ".");
-			builder.setPositiveButton("OK", (dialog, which) -> {
+	Boolean isQuizz = false;
 
+	//Fait pour l'API
+	APIRequest apiRequest = new APIRequest();
+	apiRequest.run(new APIQuizCallback() {
+		@Override
+		public Boolean AddListQuestions(JSONObject jsonObject) {
+			handler.post(new Runnable() {
+				@Override
+				public void run() {
+					addQuestions(jsonObject);
+					Next();
+				}
 			});
-			listQuestions.reset();
-			clearGridLayout();
-			displayQuestion();
-			builder.show();
-		} else {
-			listQuestions.nextQuestion();
-			clearGridLayout();
-			displayQuestion();
+			return true;
 		}
 	});
 
-    //Fair pour l'API
-    apiTextView = findViewById(R.id.apiTextView);
-    try {
-        JSONObject testJson = ReadJSON.readJSONFile(this, R.raw.quiz);
-        System.out.println("tesJson " + testJson);
-    } catch (IOException e) {
-        throw new RuntimeException(e);
-    } catch (JSONException e) {
-        throw new RuntimeException(e);
-    }
-
-//        APIRequest apiRequest = new APIRequest();
-//        apiRequest.run();
-
-
-
 }
 
-private void displayQuestion() {
+	private void Next() {
+		displayQuestion();
+
+		Button nextButton = findViewById(R.id.nextQuestionButton);
+		nextButton.setOnClickListener(v -> {
+			if (listQuestions.isLastQuestion()) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setTitle("Fin du quiz");
+				builder.setMessage("Vous avez terminé le quizz avec un score de " + listQuestions.getScore() + "/" + listQuestions.getQuestions().size() + ".");
+				builder.setPositiveButton("OK", (dialog, which) -> {
+
+				});
+				listQuestions.reset();
+				clearGridLayout();
+				displayQuestion();
+				builder.show();
+			} else {
+				listQuestions.nextQuestion();
+				clearGridLayout();
+				displayQuestion();
+			}
+		});
+	}
+
+	private void displayQuestion() {
 	GridLayout layout = findViewById(R.id.gridLayoutAnswers);
 	TextView questionTextView = findViewById(R.id.questionTextView);
 	Button nextButton = findViewById(R.id.nextQuestionButton);
@@ -105,23 +118,40 @@ private void displayQuestion() {
 	}
 }
 
-private void addQuestions() {
-	Question question1 = new Question("Quel est le nom de la capitale de la France ?", "Paris", "Paris est la capitale de la France.", new String[]{"Paris", "Lyon", "Marseille", "Toulouse"});
-	Question question2 = new Question("Quel est le nom de la capitale de l'Espagne ?", "Madrid", "Madrid est la capitale de l'Espagne.", new String[]{"Madrid", "Barcelone", "Séville", "Valence"});
-	Question question3 = new Question("Quel est le nom de la capitale de l'Italie ?", "Rome", "Rome est la capitale de l'Italie.", new String[]{"Rome", "Milan", "Naples", "Turin"});
-	Question question4 = new Question("Quel est le nom de la capitale de l'Allemagne ?", "Berlin", "Berlin est la capitale de l'Allemagne.", new String[]{"Berlin", "Hambourg", "Munich", "Cologne"});
-	listQuestions.addQuestion(question1);
-	listQuestions.addQuestion(question2);
-	listQuestions.addQuestion(question3);
-	listQuestions.addQuestion(question4);
+private void addQuestions(JSONObject jsonObject) {
+//	Question question1 = new Question("Quel est le nom de la capitale de la France ?", "Paris", "Paris est la capitale de la France.", new String[]{"Paris", "Lyon", "Marseille", "Toulouse"});
+//	Question question2 = new Question("Quel est le nom de la capitale de l'Espagne ?", "Madrid", "Madrid est la capitale de l'Espagne.", new String[]{"Madrid", "Barcelone", "Séville", "Valence"});
+//	Question question3 = new Question("Quel est le nom de la capitale de l'Italie ?", "Rome", "Rome est la capitale de l'Italie.", new String[]{"Rome", "Milan", "Naples", "Turin"});
+//	Question question4 = new Question("Quel est le nom de la capitale de l'Allemagne ?", "Berlin", "Berlin est la capitale de l'Allemagne.", new String[]{"Berlin", "Hambourg", "Munich", "Cologne"});
+//	listQuestions.addQuestion(question1);
+//	listQuestions.addQuestion(question2);
+//	listQuestions.addQuestion(question3);
+//	listQuestions.addQuestion(question4);
+
+	JSONArray quizzes;
+
+	try {
+		quizzes = jsonObject.getJSONArray("quizzes");
+	} catch (JSONException e) {
+		throw new RuntimeException(e);
+	}
+	for (int i=0; i < quizzes.length(); i++) {
+		String question;
+		String answer;
+		String explication = "";
+		String [] choices;
+		try {
+			question = quizzes.getJSONObject(i).getString("question");
+			answer = quizzes.getJSONObject(i).getString("answer");
+			choices = new String[] {answer, quizzes.getJSONObject(i).getJSONArray("badAnswers").getString(0), quizzes.getJSONObject(i).getJSONArray("badAnswers").getString(1), quizzes.getJSONObject(i).getJSONArray("badAnswers").getString(2)};
+		} catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
+		listQuestions.addQuestion(new Question(question, answer, explication, choices));
+	}
 }
 private void clearGridLayout() {
 	GridLayout layout = findViewById(R.id.gridLayoutAnswers);
 	layout.removeAllViews();
 }
-}
-
-
-    }
-
 }

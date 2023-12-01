@@ -29,6 +29,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.example.concocte.MainActivity;
 import com.example.concocte.R;
 
 import org.json.JSONException;
@@ -39,15 +40,14 @@ public final class APIRequest {
     private final Handler handler = new Handler(Looper.getMainLooper());
     private Context context;
 
-    public void run() {
+    public void run(MainActivity.APIQuizCallback apiQuizCallback) {
         Request request = new Request.Builder()
-                .url("https://pokeapi.co/api/v2/pokemon/1")
+                .url("https://quizzapi.jomoreschi.fr/api/v1/quiz?limit=5&category=culture_generale&difficulty=normal\n")
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                System.out.println("testerror");
                 e.printStackTrace();
                 // Gérer l'échec, par exemple, afficher un message d'erreur à l'utilisateur
             }
@@ -55,28 +55,20 @@ public final class APIRequest {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
-                    System.out.println("test2");
                     if (!response.isSuccessful()) {
                         throw new IOException("Code inattendu " + response);
                     }
 
                     // Traiter la réponse de quelque manière que ce soit, par exemple, mettre à jour l'UI
                     final String responseData = responseBody.string();
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Mettre à jour l'UI avec responseData
-                            System.out.println("reponse API json " + responseData);
-                            try {
-                                JSONObject jsonObjectPokeAPI = new JSONObject(responseData);
-                                System.out.println(jsonObjectPokeAPI);
-                            } catch (JSONException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                    });
+                    JSONObject jsonObjectPokeAPI = new JSONObject(responseData);
+                    apiQuizCallback.AddListQuestions(jsonObjectPokeAPI);
+
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
                 }
             }
         });
+
     }
 }
