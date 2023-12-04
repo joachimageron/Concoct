@@ -28,5 +28,22 @@ En résumé, Concocte vise à offrir une expérience de quiz modulaire, où les 
     - La méthode `displayQuestion()` dans `QuizzFragment.java` est centrale pour lier les questions et les choix à l'interface utilisateur. Elle gère l'affichage des questions et la mise à jour des scores, contribuant à l'interaction de base avec l'utilisateur.
 
 ### Challenges et Limitations
+
+**1. Appel API**
+- L'implémentation des appels API en Java pour Android a été un défi, étant donné notre familiarité avec JavaScript. L'adaptation à la méthodologie d'Android a nécessité un effort d'apprentissage supplémentaire.
+
+**2. Navigation entre Pages**
+- Bien que la navigation entre les pages ait été abordée en cours, sa mise en pratique s'est avérée complexe. Comprendre et implémenter la transmission de données entre les différentes pages et fragments a nécessité des recherches et de l'apprentissage autonome.
+
+**3. Création de Formulaire**
+- La conception du formulaire, en particulier la création de champs personnalisés et la gestion des sélections, a présenté des défis. Les différences entre le développement web et Android ont rendu cette tâche plus longue et plus complexe que prévu.
+
+Ces difficultés ont souligné les écarts entre le développement web et mobile et ont constitué une courbe d'apprentissage importante pour l'équipe.
+
 ### Conclusion
 
+Notre projet Concocte, une application de quiz pour Android, a montré des réussites et des défis. L'intégration de l'appel API a été un point fort, offrant une grande variété de questions et enrichissant l'expérience utilisateur. La gestion des questions a été bien organisée et fonctionnelle, assurant un déroulement fluide du quiz.
+
+La navigation entre les différentes sections de l'application a fonctionné comme prévu, bien qu'il y ait un potentiel d'amélioration. Un système de pile de fragments aurait pu être bénéfique, mais son développement était hors de portée compte tenu du temps limité.
+
+En termes d'améliorations, l'organisation du projet pourrait être optimisée pour une meilleure efficacité. Avec plus de temps, nous aurions pu approfondir la navigation et l'architecture de l'application, explorant davantage les capacités d'Android pour améliorer Concocte.
