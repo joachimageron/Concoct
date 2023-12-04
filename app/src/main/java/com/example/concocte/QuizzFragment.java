@@ -85,12 +85,22 @@ public class QuizzFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Arrêter le quizz ?");
+                builder.setPositiveButton("Oui", (dialog, which) -> {
+                    listQuestions.reset();
 
-                FragmentManager manager = getParentFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                FormQuizzFragment formQuizzFragment = FormQuizzFragment.newInstance();
-                transaction.replace(R.id.fragmentContainerView, formQuizzFragment); // newInstance() is a static factory method.
-                transaction.commit();
+                    FragmentManager manager = getParentFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    FormQuizzFragment formQuizzFragment = FormQuizzFragment.newInstance();
+                    transaction.replace(R.id.fragmentContainerView, formQuizzFragment); // newInstance() is a static factory method.
+                    transaction.commit();
+                });
+                builder.setNegativeButton("Non", (dialog, which) -> {
+                    dialog.cancel();
+                });
+                builder.show();
+
             }
         });
 
@@ -161,14 +171,6 @@ public class QuizzFragment extends Fragment {
     }
 
     private void addQuestions(JSONObject jsonObject) {
-//	Question question1 = new Question("Quel est le nom de la capitale de la France ?", "Paris", "Paris est la capitale de la France.", new String[]{"Paris", "Lyon", "Marseille", "Toulouse"});
-//	Question question2 = new Question("Quel est le nom de la capitale de l'Espagne ?", "Madrid", "Madrid est la capitale de l'Espagne.", new String[]{"Madrid", "Barcelone", "Séville", "Valence"});
-//	Question question3 = new Question("Quel est le nom de la capitale de l'Italie ?", "Rome", "Rome est la capitale de l'Italie.", new String[]{"Rome", "Milan", "Naples", "Turin"});
-//	Question question4 = new Question("Quel est le nom de la capitale de l'Allemagne ?", "Berlin", "Berlin est la capitale de l'Allemagne.", new String[]{"Berlin", "Hambourg", "Munich", "Cologne"});
-//	listQuestions.addQuestion(question1);
-//	listQuestions.addQuestion(question2);
-//	listQuestions.addQuestion(question3);
-//	listQuestions.addQuestion(question4);
 
         JSONArray quizzes;
 
