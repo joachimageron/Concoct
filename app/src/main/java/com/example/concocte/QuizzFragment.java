@@ -31,7 +31,6 @@ import java.util.ArrayList;
 public class QuizzFragment extends Fragment {
     ListQuestions listQuestions = new ListQuestions();
 
-
     private final Handler handler = new Handler(Looper.getMainLooper());
     String themeUrl;
     String countUrl;
@@ -44,15 +43,15 @@ public class QuizzFragment extends Fragment {
         difficultyUrl = difficulty;
     }
 
-    public interface APIQuizCallback {
-        Boolean AddListQuestions(JSONObject jsonObject);
-    }
-
     public static QuizzFragment newInstance(String theme, String count, String difficulty) {
         QuizzFragment fragment = new QuizzFragment(theme, count, difficulty);
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public interface APIQuizCallback {
+        Boolean AddListQuestions(JSONObject jsonObject);
     }
 
     @Override
@@ -67,6 +66,7 @@ public class QuizzFragment extends Fragment {
         APIRequest apiRequest = new APIRequest();
         Context context = getContext();
         ImageButton stopQuizz = view.findViewById(R.id.stopQuizz);
+
         apiRequest.run(new APIQuizCallback() {
             @Override
             public Boolean AddListQuestions(JSONObject jsonObject) {
@@ -169,7 +169,8 @@ public class QuizzFragment extends Fragment {
                 }
                 for (Button button : buttons) {
                     button.setEnabled(false);
-                    button.setBackgroundColor(question.checkAnswer(button.getText().toString()) ? Color.argb(255, 0, 102, 0) : Color.argb(255, 102, 0, 0));
+                    button.setBackgroundColor(question.checkAnswer(button.getText().toString()) ? Color.argb(255, 225, 255, 208) : Color.argb(255, 255, 234, 234));
+                    button.setTextColor(Color.argb(255, 0, 0, 0));
                 }
             });
             buttons.add(choiceButton);
