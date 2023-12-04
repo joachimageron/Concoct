@@ -116,12 +116,19 @@ public class QuizzFragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Fin du quiz");
                 builder.setMessage("Vous avez terminé le quizz avec un score de " + listQuestions.getScore() + "/" + listQuestions.getQuestions().size() + ".");
-                builder.setPositiveButton("OK", (dialog, which) -> {
-
+                builder.setPositiveButton("Recommencer", (dialog, which) -> {
+                    clearGridLayout(view);
+                    displayQuestion(view, context);
+                });
+                builder.setNegativeButton("Nouveau Quizz", (dialog, which) -> {
+                    FragmentManager manager = getParentFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    FormQuizzFragment formQuizzFragment = FormQuizzFragment.newInstance();
+                    transaction.replace(R.id.fragmentContainerView, formQuizzFragment); // newInstance() is a static factory method.
+                    transaction.commit();
+                    listQuestions.reset();
                 });
                 listQuestions.reset();
-                clearGridLayout(view);
-                displayQuestion(view, context);
                 builder.show();
             } else {
                 listQuestions.nextQuestion();
