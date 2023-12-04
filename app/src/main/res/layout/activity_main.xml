@@ -8,97 +8,11 @@
 
 >
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/relativeLayoutMain"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="16dp">
-
-        <TextView
-                android:id="@+id/scoreLabelTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Score :"
-                android:textSize="30sp"
-                android:textStyle="bold"
-        />
-        <TextView
-                android:id="@+id/scoreTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/scoreLabelTextView"
-                android:text="0"
-                android:textSize="30sp"
-                android:textStyle="bold"
-        />
-        <TextView
-                android:id="@+id/questionLabelTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/scoreLabelTextView"
-                android:text="Question :"
-                android:textSize="30sp"
-                android:textStyle="bold"
-        />
-        <TextView
-                android:id="@+id/questionTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/questionLabelTextView"
-                android:text="quel est la date de création de ta mère ?"
-                android:textSize="20sp"/>
-
-        <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/gridLayoutAnswers"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/questionTextView"
-                    android:columnCount="2"
-                    android:rowCount="2"
-                    android:alignmentMode="alignMargins"
-                    android:columnOrderPreserved="false"
-                    android:layout_marginTop="20dp">
-
-        </GridLayout>
-
-        <!--        <Button-->
-        <!--                android:id="@+id/responseOneButton"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_below="@id/questionTextView"-->
-        <!--                android:layout_marginTop="20dp"-->
-        <!--                android:text="1940"/>-->
-
-        <!--        <Button-->
-        <!--                android:id="@+id/responseTwoButton"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_below="@id/questionTextView"-->
-        <!--                android:layout_toRightOf="@id/responseOneButton"-->
-        <!--                android:layout_marginTop="20dp"-->
-        <!--                android:layout_marginLeft="20dp"-->
-        <!--                android:text="1970"/>-->
-
-        <TextView
-                android:id="@+id/textViewExplication"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/gridLayoutAnswers"
-                android:layout_marginTop="20dp"
-                android:text=""
-                android:textSize="18sp"/>
-
-        <Button
-                android:id="@+id/nextQuestionButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textViewExplication"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:text="Suivant"/>
-
-
-    </RelativeLayout>
-
-
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="com.example.concocte.FormQuizzFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="144dp"
+        tools:layout_editor_absoluteY="228dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

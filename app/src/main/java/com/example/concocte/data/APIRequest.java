@@ -30,6 +30,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.example.concocte.MainActivity;
+import com.example.concocte.QuizzFragment;
 import com.example.concocte.R;
 
 import org.json.JSONException;
@@ -40,9 +41,9 @@ public final class APIRequest {
     private final Handler handler = new Handler(Looper.getMainLooper());
     private Context context;
 
-    public void run(MainActivity.APIQuizCallback apiQuizCallback) {
+    public void run(QuizzFragment.APIQuizCallback apiQuizCallback, String theme, String count, String difficulty) {
         Request request = new Request.Builder()
-                .url("https://quizzapi.jomoreschi.fr/api/v1/quiz?limit=5&category=culture_generale&difficulty=normal\n")
+                .url("https://quizzapi.jomoreschi.fr/api/v1/quiz?limit=" + count + "&category=" + theme + "&difficulty=" + difficulty + "\n")
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
