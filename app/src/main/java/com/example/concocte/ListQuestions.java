@@ -2,41 +2,55 @@ package com.example.concocte;
 
 import java.util.ArrayList;
 
+// Class to manage a list of questions
 public class ListQuestions {
+// List to store the questions
     private ArrayList<Question> questions;
-    private int currentQuestionIndex;
+// Index to keep track of the current question
+private int currentQuestionIndex;
+// Variable to store the score
     private int score;
 
-    public ListQuestions() {
+// Constructor for ListQuestions
+public ListQuestions() {
         questions = new ArrayList<>();
         currentQuestionIndex = 0;
         score = 0;
     }
-    public void addQuestion(Question question) {
+// Method to add a question to the list
+public void addQuestion(Question question) {
         questions.add(question);
     }
-    public Question getCurrentQuestion() {
+// Method to get the current question
+public Question getCurrentQuestion() {
         return questions.get(currentQuestionIndex);
     }
-    public void nextQuestion() {
+// Method to move to the next question
+public void nextQuestion() {
         currentQuestionIndex++;
     }
-    public Boolean isLastQuestion() {
+// Method to check if the current question is the last one
+public Boolean isLastQuestion() {
         return currentQuestionIndex == questions.size() - 1;
     }
-    public int getScore() {
+// Method to get the score
+public int getScore() {
         return score;
     }
-    public void incrementScore() {
+// Method to increment the score
+public void incrementScore() {
         score++;
     }
-    public int getCurrentQuestionIndex() {
+// Method to get the index of the current question
+public int getCurrentQuestionIndex() {
         return currentQuestionIndex;
     }
-    public ArrayList<Question> getQuestions() {
+// Method to get the list of questions
+public ArrayList<Question> getQuestions() {
         return questions;
     }
-    public void reset() {
+// Method to reset the index and score
+public void reset() {
         currentQuestionIndex = 0;
         score = 0;
     }

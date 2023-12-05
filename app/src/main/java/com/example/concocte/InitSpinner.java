@@ -6,34 +6,37 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-public class InitSpinner implements
-        AdapterView.OnItemSelectedListener{
+// Class to initialize a spinner
+public class InitSpinner implements AdapterView.OnItemSelectedListener {
 
-    String [] spinner;
-    String [] spinnerValue;
+    // Arrays for the spinner text and values
+    private String[] spinner;
+    private String[] spinnerValue;
 
-    public InitSpinner(String [] spinner, String [] spinnerValue){
+    // Constructor for InitSpinner
+    public InitSpinner(String[] spinner, String[] spinnerValue) {
         this.spinner = spinner;
         this.spinnerValue = spinnerValue;
     }
 
-
-
-    public void initSpinner(Spinner viewSpinner, Context context){
-        //Getting the instance of Spinner and applying OnItemSelectedListener on it
+    // Method to initialize the spinner
+    public void initSpinner(Spinner viewSpinner, Context context) {
+        // Set the OnItemSelectedListener for the spinner
         viewSpinner.setOnItemSelectedListener(this);
 
-        //Creating the ArrayAdapter instance having the country list
-        ArrayAdapter aa = new ArrayAdapter(context,android.R.layout.simple_spinner_item, spinner);
+        // Create an ArrayAdapter with the spinner text
+        ArrayAdapter aa = new ArrayAdapter(context, android.R.layout.simple_spinner_item, spinner);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
+
+        // Set the ArrayAdapter on the spinner
         viewSpinner.setAdapter(aa);
     }
 
-    public String equalsTo(String selectedItem){
+    // Method to get the value corresponding to the selected item
+    public String equalsTo(String selectedItem) {
         String selectedValue = null;
-        for (int i = 0; i<spinner.length ; i++){
-            if (spinner[i] == selectedItem){
+        for (int i = 0; i < spinner.length; i++) {
+            if (spinner[i].equals(selectedItem)) {
                 selectedValue = spinnerValue[i];
                 break;
             }
@@ -41,13 +44,15 @@ public class InitSpinner implements
         return selectedValue;
     }
 
+    // Method called when an item is selected in the spinner
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+        // You can add code here to handle the item selection if needed
     }
 
+    // Method called when no item is selected in the spinner
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-
+        // You can add code here to handle the case where no item is selected if needed
     }
 }

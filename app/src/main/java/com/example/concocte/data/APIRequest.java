@@ -1,21 +1,5 @@
-/*
- * Copyright (C) 2014 Square, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.example.concocte.data;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -36,31 +20,40 @@ import com.example.concocte.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+// Class to handle API requests
 public final class APIRequest {
+    // OkHttpClient to send network requests
     private final OkHttpClient client = new OkHttpClient();
+    // Handler to post runnable to the main thread
     private final Handler handler = new Handler(Looper.getMainLooper());
+    // Context of the application
     private Context context;
 
+    // Method to run the API request
     public void run(QuizzFragment.APIQuizCallback apiQuizCallback, String theme, String count, String difficulty) {
+        // Build the request
         Request request = new Request.Builder()
                 .url("https://quizzapi.jomoreschi.fr/api/v1/quiz?limit=" + count + "&category=" + theme + "&difficulty=" + difficulty + "\n")
                 .build();
 
+        // Enqueue the request
         client.newCall(request).enqueue(new Callback() {
+            // Handle failure
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
-                // Gérer l'échec, par exemple, afficher un message d'erreur à l'utilisateur
+                // Handle failure, for example, shows an error message to the user
             }
 
+            // Handle response
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
                     if (!response.isSuccessful()) {
-                        throw new IOException("Code inattendu " + response);
+                        throw new IOException("Unexpected code " + response);
                     }
 
-                    // Traiter la réponse de quelque manière que ce soit, par exemple, mettre à jour l'UI
+                    // Handle the response in some way, for example, update the UI
                     final String responseData = responseBody.string();
                     JSONObject jsonObjectPokeAPI = new JSONObject(responseData);
                     apiQuizCallback.AddListQuestions(jsonObjectPokeAPI);
